@@ -2,8 +2,8 @@ FROM golang:1.16 as build
 WORKDIR /go/src/maiflux-msg-bridge/
 COPY . .
 RUN go mod download
-RUN go build -o ./ntk ./nats-to-kafka/
-RUN go build -o ./ktn ./kafka-to-nats/
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ./ntk ./nats-to-kafka/
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ./ktn ./kafka-to-nats/
 
 
 FROM alpine:latest
